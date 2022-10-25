@@ -69,35 +69,34 @@ def is_op(char):
         return False
 
 def eval_postfix(postfix):
-    stack = Stack()
-    result = 0
+    a_stack = Stack()
     
     for char in postfix:
         if char.isnumeric():
-            stack.push(char)
+            a_stack.push(char)
         else:
-            if stack.size() != 0:
-                temp1 = stack.top()
-                stack.pop()
-                # if stack.size() != 0:
-                temp2 = stack.top()
-                stack.pop()
-                def switch(char):
-                    if char == '+':
-                        result = temp1 + temp2
-                        stack.push(result)
-                    elif char == '-':
-                        result = temp1 - temp2
-                        stack.push(result)
-                    elif char == '*':
-                        result = temp1 * temp2
-                        stack.push(result)
-                    elif char == '/':
-                        result = temp1 / temp2
-                        stack.push(result)
+            if a_stack.size() != 0:
+                temp1 = a_stack.top()
+                a_stack.pop()
+                if a_stack.size() == 0:
+                    return temp1
+                temp2 = a_stack.top()
+                a_stack.pop()
+                if char == '+':
+                    result = int(temp1) + int(temp2)
+                    a_stack.push(result)
+                elif char == '-':
+                    result = int(temp2) - int(temp1)
+                    a_stack.push(result)
+                elif char == '*':
+                    result = int(temp1) * int(temp2)
+                    a_stack.push(result)
+                elif char == '/':
+                    result = int(temp1) / int(temp2)
+                    a_stack.push(result)
 
-    
-    return stack.top()
+    return str(a_stack.top())
+
     
 
 def main():
@@ -115,19 +114,27 @@ def main():
     # test1.clear()
     # print(test1)
 
+    infix_l = []
+    postfix_l = []
+    answer_l = []
     
     data = open("data.txt", "r")
     
     for line in data:
         equation = line
-        equation = equation.replace("\n", "")
-        in2post_result = in2post(equation)
+        infixed = str(equation.replace("\n", ""))
         
-        print('infix: ', equation)
-        print('postfix: ', in2post_result)
-        # print(eval_postfix(in2post_result))
+        infix_l.append(infixed)
+        postfix_l.append(in2post(infixed))
+
+    for el in range(0, len(infix_l)):
+        answer_l.append(eval_postfix(postfix_l[el]))
+
+        print('infix: ', infix_l[el])
+        print('postfix: ', postfix_l[el])
+        print('answer: ',answer_l[el])
         print()
-    
+
 
     
 
