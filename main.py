@@ -21,7 +21,7 @@ def in2post(expr):
                 op_sym.top() != '(' and
                 precedence(op_sym.top(), char)
             ):
-                output += op_sym.top()
+                output += str(op_sym.top())
                 op_sym.pop()
             op_sym.push(char)
         else:
@@ -39,15 +39,13 @@ def in2post(expr):
                 op_sym.pop()
     
     while op_sym.size() != 0:
-        output += op_sym.top()
+        output += str(op_sym.top())
         op_sym.pop()
         if op_sym.size() == 0:
             break
 
     return output
 
-def eval_postfix():
-    return ''
 
 def precedence(top, char):
     if (
@@ -69,6 +67,37 @@ def is_op(char):
         return True
     else:
         return False
+
+def eval_postfix(postfix):
+    stack = Stack()
+    result = 0
+    
+    for char in postfix:
+        if char.isnumeric():
+            stack.push(char)
+        else:
+            if stack.size() != 0:
+                temp1 = stack.top()
+                stack.pop()
+                # if stack.size() != 0:
+                temp2 = stack.top()
+                stack.pop()
+                def switch(char):
+                    if char == '+':
+                        result = temp1 + temp2
+                        stack.push(result)
+                    elif char == '-':
+                        result = temp1 - temp2
+                        stack.push(result)
+                    elif char == '*':
+                        result = temp1 * temp2
+                        stack.push(result)
+                    elif char == '/':
+                        result = temp1 / temp2
+                        stack.push(result)
+
+    
+    return stack.top()
     
 
 def main():
@@ -92,9 +121,11 @@ def main():
     for line in data:
         equation = line
         equation = equation.replace("\n", "")
+        in2post_result = in2post(equation)
+        
         print('infix: ', equation)
-        print('postfix: ', in2post(equation))
-        print('answer: ')
+        print('postfix: ', in2post_result)
+        # print(eval_postfix(in2post_result))
         print()
     
 
