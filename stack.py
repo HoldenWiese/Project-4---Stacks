@@ -41,3 +41,12 @@ class Stack:
     def clear(self):
         "Empty the stack"
         self.stack = []
+
+    def below_top(self):
+        "Check item 1 below top"
+        if self.size() > 0:
+            temp = self.top()
+            self.pop()
+            output = self.top()
+            self.push(temp)
+            return output
