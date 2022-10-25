@@ -6,7 +6,7 @@ def in2post(expr):
         raise ValueError("Argument must be of type string")
     
     op_sym = Stack()
-    expr = expr.replace(" ", "") #remove whitespace
+    expr = expr.replace(" ", "")
     output = ''
 
     for char in expr:
@@ -15,16 +15,11 @@ def in2post(expr):
             op_sym.push(char)
         elif char.isnumeric():
             output += char
-        elif (
-            char == '+' or
-            char == '-' or
-            char == '/' or
-            char == '*'
-        ):
+        elif is_op(char):
             while (
                 op_sym.size() != 0 and
                 op_sym.top() != '(' and
-                equal_or_higher_precedence(op_sym.top(), char)
+                precedence(op_sym.top(), char)
             ):
                 output += op_sym.top()
                 op_sym.pop()
@@ -54,7 +49,7 @@ def in2post(expr):
 def eval_postfix():
     return ''
 
-def equal_or_higher_precedence(top, char):
+def precedence(top, char):
     if (
         (top == '+' and char == '*') or
         (top == '+' and char == '/') or
@@ -63,6 +58,17 @@ def equal_or_higher_precedence(top, char):
        ):
            return False
     return True
+
+def is_op(char):
+    if (
+        (char == '+') or
+        (char == '-') or
+        (char == '*') or
+        (char == '/')
+    ):
+        return True
+    else:
+        return False
     
 
 def main():
