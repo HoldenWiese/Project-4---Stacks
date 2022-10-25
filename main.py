@@ -11,7 +11,6 @@ def in2post(expr):
 
     for char in expr:
         char = str(char)
-        # print('Char is: ', char)
         if char == '(':
             op_sym.push(char)
         elif char.isnumeric():
@@ -20,34 +19,36 @@ def in2post(expr):
             char == '+' or
             char == '-' or
             char == '/' or
-            char == '*' or
-            char == ')'
+            char == '*'
         ):
             while (
                 op_sym.size() != 0 and
                 op_sym.top() != '(' and
-                equal_or_higher_precedence(op_sym.top, char)
+                equal_or_higher_precedence(op_sym.top(), char)
             ):
-                # print('print the stacks top...: ', op_sym.top())
                 output += op_sym.top()
                 op_sym.pop()
             op_sym.push(char)
         else:
-            if op_sym.size() != 0:
-                print('This should be a ): ', op_sym.top())
-                op_sym.pop()
             if op_sym.size() != 0:
                 output += op_sym.top()
                 op_sym.pop()
             if op_sym.size() != 0:
                 while(op_sym.top() != '('):
                     if op_sym.size() != 0:
+                        output += op_sym.top()
+                        op_sym.pop()
+                    if op_sym.size() == 0:
                         break
-                    output += op_sym.top()
-                    op_sym.pop()
+            if op_sym.size() != 0:
                 op_sym.pop()
-                op_sym.clear()
-    print(op_sym)
+    
+    while op_sym.size() != 0:
+        output += op_sym.top()
+        op_sym.pop()
+        if op_sym.size() == 0:
+            break
+
     return output
 
 def eval_postfix():
