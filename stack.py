@@ -29,8 +29,10 @@ class Stack:
         "Remove item from stack and decrement"
         if self.length == 0:
             raise IndexError("Cannot pop() empty stack")
+        result = self.top()
         self.stack.pop(self.length - 1)
         self.length -= 1
+        return result
 
     def top(self):
         "View next item in stack"
@@ -42,11 +44,3 @@ class Stack:
         "Empty the stack"
         self.stack = []
 
-    def below_top(self):
-        "Check item 1 below top"
-        if self.size() > 0:
-            temp = self.top()
-            self.pop()
-            output = self.top()
-            self.push(temp)
-            return output
